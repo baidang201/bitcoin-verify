@@ -1,7 +1,7 @@
 # 1 build taptool for test env
 
 ```
-git clone github.com/bitcoin-core/btcdeb
+git clone https://github.com/bitcoin-core/btcdeb.git
 export ENABLE_DANGEROUS=1
 ./autogen.sh
  ./configure --enable-dangerous
@@ -21,10 +21,10 @@ git checkout a0988140b7
 make
 sudo make install
 
-bitcoin-qt  -regtest -server -rpcuser=rpcuser -rpcpassword=rpcpassword -rpcport=18332 -fallbackfee=0.000001 -txindex
+bitcoin-qt  -regtest -server -rpcuser=rpcuser -rpcpassword=rpcpassword -rpcport=8332 -fallbackfee=0.000001 -txindex
 ```
 
-## in mac you can also download and run
+## Also, you can also download and run. RECOMMENDED FOR MAC AND NIXOS
 
 https://bitcoin.org/en/download
 
@@ -32,10 +32,18 @@ https://bitcoin.org/en/download
 /Applications/Bitcoin-Qt.app/Contents/MacOS/Bitcoin-Qt -regtest -server -rpcuser=rpcuser -rpcpassword=rpcpassword -rpcport=18332 -fallbackfee=0.000001 -txindex
 ```
 
+## Generate some funds
+* Click receive on UI
+* Generate address and copy it
+* Go to Window -> Console
+* type: `generatetoaddress 101 {Address}`
+* FYI: 101 block generated to make available at least one for spending.
+
 
 # 3 build locktime tap script
 
 ## init key and script
+Exporting env variables
 ```
 privkey=1229101a0fcf2104e8808dab35661134aa5903867d44deb73ce1c7e4eb925be8
 pubkey=f30544d6009c8d8d94f5d030b2e844b1a3ca036255161c479db1cca5b374dd1c
@@ -47,7 +55,12 @@ script_bob='[4edfcf9dfe6c0b5c83d1ab3f78d1b39a46ebac6798e08e19761f5ed89ec83c10 OP
 ```
 
 ## product script Bech32m address
+Executing:
+
+```bash
 tap $pubkey 2 "${script_alice}" "${script_bob}" 
+```
+
 ```
 tap 5.0.24 -- type `tap -h` for help
 WARNING: This is experimental software. Do not use this with real bitcoin, or you will most likely lose them all. You have been w a r n e d.
@@ -70,16 +83,43 @@ Resulting Bech32m address: bcrt1pe8q322zksrnd40lavu0gqu53f9a255gfah78gdupgeuu92j
 ```
 
 # 4 send token to script bech32m address
-bcli sendtoaddress bcrt1pe8q322zksrnd40lavu0gqu53f9a255gfah78gdupgeuu92jzn0ysnry0c9 0.001
+You can do the same on the console ui
+
+```bash
+sendtoaddress bcrt1pe8q322zksrnd40lavu0gqu53f9a255gfah78gdupgeuu92jzn0ysnry0c9 0.001
+```
+
+or using CLI
+
+```bash
+bcli -rpcuser=rpcuser -rpcpassword=rpcpassword sendtoaddress bcrt1pe8q322zksrnd40lavu0gqu53f9a255gfah78gdupgeuu92jzn0ysnry0c9 0.001
+```
+
+## Output
+
+We expect to see some transaction hash
+
 ```
 e18be5221d15aee6dc3918d7c63362a98ecc04741c8a78106aec2625f5286bb2
 ```
 
-
-
 # 5 get tx detail
-bcli getrawtransaction e18be5221d15aee6dc3918d7c63362a98ecc04741c8a78106aec2625f5286bb2 1
+
+CLI:
+
+```bash
+bcli -rpcuser=rpcuser -rpcpassword=rpcpassword getransaction e18be5221d15aee6dc3918d7c63362a98ecc04741c8a78106aec2625f5286bb2 1
 ```
+
+UI:
+
+```bash
+gettransaction e18be5221d15aee6dc3918d7c63362a98ecc04741c8a78106aec2625f5286bb2 true
+```
+
+## Output
+
+```json
 {
   "txid": "e18be5221d15aee6dc3918d7c63362a98ecc04741c8a78106aec2625f5286bb2",
   "hash": "09c87c6cff6312cb7a50a34bd7ccf0fdc7ccb7782d8eca0204dab9384940c694",
@@ -158,7 +198,10 @@ bcli getrawtransaction e18be5221d15aee6dc3918d7c63362a98ecc04741c8a78106aec2625f
 ```
 
 # 6 create Taproot spend
-```
+
+Use your own hex output and fill txin and txid as showed below.
+
+```bash
 txin=02000000000103764c090bead58b9cba09b981471dbd74985d42ed9ec20b8cbc4c784bade158b00000000000fdffffff75d4133d25f579ce729a73c39bee8d88339aa0eb814a7c69ecdae7055db9f3760000000000fdffffff83c5ee28eaa21b924be40c4910f73e4f94f96cec53df52423356de323f48337c0000000000fdffffff02a086010000000000225120c9c115285680e6dabffd671e807291497aaa5109edfc7437814679c2aa429bc9e49602000000000022512086b974d6cafc8ca1641b204018a1fac81535742b90bc5bae7c3d5be21fb1cd870247304402205761fff2a1581265c3284e7717639cab12649deff116db499fb43cd0f879a791022023ce08e3ec920c209cdaefecc578ce90d5000bd582b0a8ca835e597355059b1c012102d8911002f179a15722867b9c3893084a8f59fc73608f05b5f2b76fee65f672fb0247304402205b7ade74f59814a9d34d2fe72c57adf7a0b4ad0547671cd2fc549acfb58b04ca02205f7e0cbe47e024a2773a5354193c6b93bc81482c28f2ca3e501f7b5ff50c99f3012102d8911002f179a15722867b9c3893084a8f59fc73608f05b5f2b76fee65f672fb0247304402201de1546e65f5ba97e3b7433dccfdb82003fc9a38004c853b8aaa3547d171f9a802205f8e2dc6ca1d10ba2e12304a308f62dee7632a2a5834b1069083a36139189eae012102d8911002f179a15722867b9c3893084a8f59fc73608f05b5f2b76fee65f672fb4c010000
 
 tx=$(bcli createrawtransaction '[{"txid":"e18be5221d15aee6dc3918d7c63362a98ecc04741c8a78106aec2625f5286bb2", "vout":0}]' '[{"bcrt1qg4xrdyf0dzc26y39zyzkajleww5z0hgzvzl9fj":0.0009}]') 
