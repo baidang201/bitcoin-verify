@@ -178,6 +178,8 @@
             xorg.xcbutilrenderutil
             xorg.xcbutilwm
             libxkbcommon
+            python3
+
 
             # Mold Linker for faster builds (only on Linux)
             (lib.optionals pkgs.stdenv.isLinux pkgs.mold)

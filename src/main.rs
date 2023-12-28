@@ -359,7 +359,7 @@ fn main() {
     let args = Args::parse();
 
     let rpc = Client::new(
-        "http://localhost:18332",
+        "http://localhost:8332",
         Auth::UserPass("rpcuser".to_string(), "rpcpassword".to_string()),
     )
     .unwrap();
