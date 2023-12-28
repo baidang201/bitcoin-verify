@@ -4,7 +4,7 @@
 git clone https://github.com/bitcoin-core/btcdeb.git
 export ENABLE_DANGEROUS=1
 ./autogen.sh
- ./configure --enable-dangerous
+./configure --enable-dangerous
 make
 sudo make install
 ```
@@ -27,7 +27,7 @@ bitcoin-qt  -regtest -server -rpcuser=rpcuser -rpcpassword=rpcpassword -rpcport=
 
 ## Also, you can also download and run. RECOMMENDED FOR MAC AND NIXOS
 
-[https://bitcoin.org/en/download](Download executables)
+[Download executables](https://bitcoin.org/en/download)
 
 ```bash
 /Applications/Bitcoin-Qt.app/Contents/MacOS/Bitcoin-Qt -regtest -server -rpcuser=rpcuser -rpcpassword=rpcpassword -rpcport=18332 -fallbackfee=0.000001 -txindex
