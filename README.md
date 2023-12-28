@@ -48,6 +48,9 @@ bitcoin-qt  -regtest -server -rpcuser=rpcuser -rpcpassword=rpcpassword -rpcport=
 Exporting env variables:
 
 ```bash
+alias bcli='bitcoin-cli -regtest -rpcuser=rpcuser -rpcpassword=rpcpassword -rpcport=18332'
+
+
 export privkey=1229101a0fcf2104e8808dab35661134aa5903867d44deb73ce1c7e4eb925be8
 export pubkey=f30544d6009c8d8d94f5d030b2e844b1a3ca036255161c479db1cca5b374dd1c
 
@@ -99,7 +102,7 @@ sendtoaddress bcrt1pe8q322zksrnd40lavu0gqu53f9a255gfah78gdupgeuu92jzn0ysnry0c9 0
 or using CLI
 
 ```bash
-bcli -rpcuser=rpcuser -rpcpassword=rpcpassword sendtoaddress bcrt1pe8q322zksrnd40lavu0gqu53f9a255gfah78gdupgeuu92jzn0ysnry0c9 0.001
+bcli sendtoaddress bcrt1pe8q322zksrnd40lavu0gqu53f9a255gfah78gdupgeuu92jzn0ysnry0c9 0.001
 ```
 
 ## Output
@@ -121,7 +124,7 @@ export tx_hash="e18be5221d15aee6dc3918d7c63362a98ecc04741c8a78106aec2625f5286bb2
 CLI:
 
 ```bash
-bcli -rpcuser=rpcuser -rpcpassword=rpcpassword getrawtransaction $tx_hash 1
+bcli getrawtransaction $tx_hash 1
 ```
 
 UI:
@@ -225,14 +228,14 @@ export txin='02000000000103764c090bead58b9cba09b981471dbd74985d42ed9ec20b8cbc4c7
 
 # Take a look in the transaction info about vout of the bcrt1ps6uhf4k2ljx2zeqmypqp3g06eq2n2aptjz79htnu84d7y8a3ekrs5kjjy2 address. You need to look for `n` argument. It is either 1 or 0.
 
-export tx=$(bcli -rpcuser=rpcuser -rpcpassword=rpcpassword createrawtransaction "[{\"txid\":\"$tx_hash\", \"vout\":$vout}]" '[{"bcrt1qg4xrdyf0dzc26y39zyzkajleww5z0hgzvzl9fj":0.0009}]') 
+export tx=$(bcli createrawtransaction "[{\"txid\":\"$tx_hash\", \"vout\":$vout}]" '[{"bcrt1qg4xrdyf0dzc26y39zyzkajleww5z0hgzvzl9fj":0.0009}]') 
 
 ```
 
 tips: you can create locktime spend tx with below, 100 is the locktime param.
 
 ```bash
-tx=$(bcli -rpcuser=rpcuser -rpcpassword=rpcpassword  createrawtransaction "[{\"txid\":\"$tx_hash\", \"vout\":$vout}]" '[{"bcrt1qg4xrdyf0dzc26y39zyzkajleww5z0hgzvzl9fj":0.0009}]') 100
+tx=$(bcli createrawtransaction "[{\"txid\":\"$tx_hash\", \"vout\":$vout}]" '[{"bcrt1qg4xrdyf0dzc26y39zyzkajleww5z0hgzvzl9fj":0.0009}]') 100
 
 ```
 
@@ -319,7 +322,7 @@ tap -k81b637d8fcd2c6da6359e6963113a1170de795e4b725b84d1e0b4cfd9ec58ce9 --tx=$tx 
 
 CLI:
 ```bash
-bcli -rpcuser=rpcuser -rpcpassword=rpcpassword sendrawtransaction 02000000000101b26b28f52526ec6a10788a1c7404cc8ea96233c6d71839dce6ae151d22e58be10000000000fdffffff01905f010000000000160014454c36912f68b0ad122511056ecbf973a827dd02034027ddfed4b5796ed22b6e8c895cc7ff4ea983ab4c8c734d63d899e7f944adbee06a1737f1c27ababf7fcedef07754614a5f82b3dd316d8ddccba92e033146c71c9d204edfcf9dfe6c0b5c83d1ab3f78d1b39a46ebac6798e08e19761f5ed89ec83c10ac006353036f72645151011e1e6170706c69636174696f6e2f6a736f6e3b636861727365743d7574662d385155014b4b7b73656e6465723a202234656466636639646665366330623563383364316162336637386431623339613436656261633637393865303865313937363166356564383965633833633130226841c0f30544d6009c8d8d94f5d030b2e844b1a3ca036255161c479db1cca5b374dd1c0ce303b5acc6a0e96a3cdf926242938f6c238b16c04c2a428b44b2634ca6613c00000000
+bcli sendrawtransaction 02000000000101b26b28f52526ec6a10788a1c7404cc8ea96233c6d71839dce6ae151d22e58be10000000000fdffffff01905f010000000000160014454c36912f68b0ad122511056ecbf973a827dd02034027ddfed4b5796ed22b6e8c895cc7ff4ea983ab4c8c734d63d899e7f944adbee06a1737f1c27ababf7fcedef07754614a5f82b3dd316d8ddccba92e033146c71c9d204edfcf9dfe6c0b5c83d1ab3f78d1b39a46ebac6798e08e19761f5ed89ec83c10ac006353036f72645151011e1e6170706c69636174696f6e2f6a736f6e3b636861727365743d7574662d385155014b4b7b73656e6465723a202234656466636639646665366330623563383364316162336637386431623339613436656261633637393865303865313937363166356564383965633833633130226841c0f30544d6009c8d8d94f5d030b2e844b1a3ca036255161c479db1cca5b374dd1c0ce303b5acc6a0e96a3cdf926242938f6c238b16c04c2a428b44b2634ca6613c00000000
 ```
 
 UI terminal:
