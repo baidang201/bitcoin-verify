@@ -22,7 +22,7 @@ git checkout a0988140b7
 make
 sudo make install
 
-bitcoin-qt  -regtest -server -rpcuser=rpcuser -rpcpassword=rpcpassword -rpcport=8332 -fallbackfee=0.000001 -txindex
+bitcoin-qt  -regtest -server -rpcuser=rpcuser -rpcpassword=rpcpassword -rpcport=18332 -fallbackfee=0.000001 -txindex
 ```
 
 ## Also, you can also download and run. RECOMMENDED FOR MAC AND NIXOS
